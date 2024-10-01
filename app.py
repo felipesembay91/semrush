@@ -91,7 +91,7 @@ def create_user(username, email, password, secret_question, secret_answer):
             INSERT INTO semrush_qa.users (username, email, password, secret_question, secret_answer) 
             VALUES (%s, %s, %s, %s, %s)
             """
-            cursor.execute(query, (username, email, hashed_password, secret_question, secret_answer))
+            cursor.execute(query, (username, email, hashed_password, secret_question, hashed_secret_answer))
             conn.commit()
             cursor.close()
             conn.close()
