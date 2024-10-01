@@ -8,7 +8,6 @@ from sqlalchemy import create_engine
 from datetime import datetime
 import io
 import os
-from dotenv import load_dotenv
 import re
 import toml
 
