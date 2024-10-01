@@ -85,6 +85,7 @@ def create_user(username, email, password, secret_question, secret_answer):
     if conn:
         try:
             hashed_password = hashlib.sha256(password.encode()).hexdigest()
+            hashed_secret_answer = hashlib.sha256(secret_answer.encode()).hexdigest()
             cursor = conn.cursor()
             query = """
             INSERT INTO semrush_qa.users (username, email, password, secret_question, secret_answer) 
