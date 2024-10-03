@@ -343,7 +343,7 @@ def upload():
 
                 # Seleção das colunas do banco para mapear
                 try:
-                    initial_query = "SELECT * semrush_prod.traffic_analytics"
+                    initial_query = "SELECT * FROM semrush_prod.traffic_analytics"
                     with engine.connect() as connection:
                         initial_df = pd.read_sql(initial_query, connection)
                     available_db_columns = initial_df.columns.tolist()
