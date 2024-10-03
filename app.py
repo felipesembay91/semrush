@@ -63,7 +63,7 @@ def login_user(username, password):
         try:
             cursor = conn.cursor()
             hashed_password = hashlib.sha256(password.encode()).hexdigest()
-            query = "SELECT id FROM semrush_qa.users WHERE username = %s AND password = %s"
+            query = "SELECT id FROM semrush_prod.users WHERE username = %s AND password = %s"
             cursor.execute(query, (username, hashed_password))
             result = cursor.fetchone()
             cursor.close()
@@ -88,7 +88,7 @@ def create_user(username, email, password, secret_question, secret_answer):
             hashed_secret_answer = hashlib.sha256(secret_answer.encode()).hexdigest()
             cursor = conn.cursor()
             query = """
-            INSERT INTO semrush_qa.users (username, email, password, secret_question, secret_answer) 
+            INSERT INTO semrush_prod.users (username, email, password, secret_question, secret_answer) 
             VALUES (%s, %s, %s, %s, %s)
             """
             cursor.execute(query, (username, email, hashed_password, secret_question, hashed_secret_answer))
@@ -106,14 +106,14 @@ def recover_password(username, secret_question, secret_answer, new_password):
         try:
             cursor = conn.cursor()
             query = """
-            SELECT id FROM semrush_qa.users WHERE username = %s AND secret_question = %s AND secret_answer = %s
+            SELECT id FROM semrush_prod.users WHERE username = %s AND secret_question = %s AND secret_answer = %s
             """
             cursor.execute(query, (username, secret_question, secret_answer))
             result = cursor.fetchone()
 
             if result:
                 hashed_password = hashlib.sha256(new_password.encode()).hexdigest()
-                update_query = "UPDATE semrush_qa.users SET password = %s WHERE id = %s"
+                update_query = "UPDATE semrush_prod.users SET password = %s WHERE id = %s"
                 cursor.execute(update_query, (hashed_password, result[0]))
                 conn.commit()
                 st.success("Senha atualizada com sucesso!")
@@ -129,7 +129,7 @@ def recover_password(username, secret_question, secret_answer, new_password):
 @st.cache_data
 def get_data(display_date=None, targets_filter=None, selected_columns=None):
     try:
-        query = "SELECT * FROM semrush_qa.traffic_analytics"
+        query = "SELECT * FROM semrush_prod.traffic_analytics"
         with engine.connect() as connection:
             df = pd.read_sql(query, connection)
 
@@ -177,7 +177,7 @@ def visualizacao_de_dados():
 
         # Busca inicial para obter todas as colunas
         try:
-            initial_query = "SELECT * FROM semrush_qa.traffic_analytics"
+            initial_query = "SELECT * FROM semrush_prod.traffic_analytics"
             initial_df = pd.read_sql(initial_query, engine)
             available_columns = initial_df.columns.tolist()
         except Exception as e:
@@ -269,7 +269,7 @@ def buscar_info_dominio(dominios, db_columns, display_date):
         display_date_str = display_date.strftime('%Y-%m-%d')
         query = f"""
             SELECT dominio, {columns_str}
-            FROM semrush_qa.traffic_analytics
+            FROM semrush_prod.traffic_analytics
             WHERE dominio IN ({placeholders})
             AND display_date = '{display_date_str}'
         """
@@ -281,7 +281,7 @@ def buscar_info_dominio(dominios, db_columns, display_date):
     
 # Função que busca informações no banco de dados com filtro por display_date
 def buscar_info_dominio(dominios, colunas, display_date=None):
-    query = "SELECT * FROM semrush_qa.traffic_analytics WHERE targets IN ({})".format(
+    query = "SELECT * FROM semrush_prod.traffic_analytics WHERE targets IN ({})".format(
         ', '.join(["'{}'".format(d) for d in dominios])
     )
     
@@ -343,7 +343,7 @@ def upload():
 
                 # Seleção das colunas do banco para mapear
                 try:
-                    initial_query = "SELECT * FROM semrush_qa.traffic_analytics"
+                    initial_query = "SELECT * semrush_prod.traffic_analytics"
                     with engine.connect() as connection:
                         initial_df = pd.read_sql(initial_query, connection)
                     available_db_columns = initial_df.columns.tolist()
