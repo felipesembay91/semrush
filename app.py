@@ -129,7 +129,7 @@ def recover_password(username, secret_question, secret_answer, new_password):
 @st.cache_data
 def get_data(display_date=None, targets_filter=None, selected_columns=None):
     try:
-        query = "SELECT * FROM semrush_prod.traffic_analytics"
+        query = "SELECT * FROM semrush_prod.traffic_analytics_month"
         with engine.connect() as connection:
             df = pd.read_sql(query, connection)
 
@@ -177,7 +177,7 @@ def visualizacao_de_dados():
 
         # Busca inicial para obter todas as colunas
         try:
-            initial_query = "SELECT * FROM semrush_prod.traffic_analytics"
+            initial_query = "SELECT * FROM semrush_prod.traffic_analytics_month"
             initial_df = pd.read_sql(initial_query, engine)
             available_columns = initial_df.columns.tolist()
         except Exception as e:
@@ -269,7 +269,7 @@ def buscar_info_dominio(dominios, db_columns, display_date):
         display_date_str = display_date.strftime('%Y-%m-%d')
         query = f"""
             SELECT dominio, {columns_str}
-            FROM semrush_prod.traffic_analytics
+            FROM semrush_prod.traffic_analytics_month
             WHERE dominio IN ({placeholders})
             AND display_date = '{display_date_str}'
         """
@@ -281,7 +281,7 @@ def buscar_info_dominio(dominios, db_columns, display_date):
     
 # Função que busca informações no banco de dados com filtro por display_date
 def buscar_info_dominio(dominios, colunas, display_date=None):
-    query = "SELECT * FROM semrush_prod.traffic_analytics WHERE targets IN ({})".format(
+    query = "SELECT * FROM semrush_prod.traffic_analytics_month WHERE targets IN ({})".format(
         ', '.join(["'{}'".format(d) for d in dominios])
     )
     
@@ -343,7 +343,7 @@ def upload():
 
                 # Seleção das colunas do banco para mapear
                 try:
-                    initial_query = "SELECT * FROM semrush_prod.traffic_analytics"
+                    initial_query = "SELECT * FROM semrush_prod.traffic_analytics_month"
                     with engine.connect() as connection:
                         initial_df = pd.read_sql(initial_query, connection)
                     available_db_columns = initial_df.columns.tolist()
