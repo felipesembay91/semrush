@@ -12,6 +12,16 @@ import re
 import toml
 from app3 import extration_news, extract_links_csv
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
+import urllib.parse
+import pandas as pd
+import time
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from newspaper import Article
+
 # Carregar variáveis de ambiente
 
 username = st.secrets["database"]['user']
