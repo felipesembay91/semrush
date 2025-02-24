@@ -6,3 +6,8 @@ xlsxwriter
 openpyxl
 pandas
 SQLAlchemy
+selenium==4.24.0
+webdriver-manager==4.0.2
+requests==2.26.0
+beautifulsoup4==4.12.2
+newspaper3k==0.2.8

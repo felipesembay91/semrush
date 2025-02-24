@@ -10,7 +10,6 @@ import io
 import os
 import re
 import toml
-from app3 import extration_news, extract_links_csv
 
 # Carregar variáveis de ambiente
 
@@ -467,7 +466,7 @@ def main():
         with st.sidebar:
             selected = option_menu(
                 menu_title=None,
-                options=["Visualização de Dados", "Upload e Mapeamento de URLs", "Extração de Google Notícias", "Extração de Links a partir de CSV"],
+                options=["Visualização de Dados", "Upload e Mapeamento de URLs"],
                 icons=["bar-chart-line", "upload"],
                 menu_icon="cast"
             )
@@ -476,10 +475,6 @@ def main():
             visualizacao_de_dados()
         elif selected == "Upload e Mapeamento de URLs":
             upload()
-        elif selected == "Extração de Google Notícias":
-            extration_news()
-        elif selected == "Extração de Links a partir de CSV":
-            extract_links_csv()
 
     else:
         # Interface de login e registro
