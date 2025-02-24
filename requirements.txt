@@ -12,3 +12,6 @@ requests==2.26.0
 beautifulsoup4==4.12.2
 newspaper3k==0.2.8
 pillow==9.5.0
+zlib1g-dev
+libjpeg-dev
+libpng-dev
