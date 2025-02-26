@@ -503,7 +503,7 @@ def main():
             if st.sidebar.button("Login"):
                 if login_user(username, password):
                     st.success("Seja Bem-Vindo")
-                    st.rerun()  # Atualiza a interface
+                    st.run()  # Atualiza a interface
                 else:
                     st.error("Usuário ou senha incorretos.")
 
